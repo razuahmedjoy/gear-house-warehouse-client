@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 const ManageInventory = () => {
 
     const [inventories, setInventories] = useState([]);
-    const [perPage, setPerPage] = useState(10);
+    const [perPage, setPerPage] = useState(8);
     const [page, setPage] = useState(0)
     const [totalPage, setTotalPage] = useState(0);
 
@@ -32,9 +32,9 @@ const ManageInventory = () => {
     useEffect(() => {
         setLoading(true)
         const getInventories = async () => {
-            const res = await axios.get(`http://localhost:8000/inventories?page=${page}`);
+            const res = await axios.get(`http://localhost:8000/inventories?page=${page}&perpage=${perPage}`);
             const { data } = res;
-
+            console.log(data)
             setInventories(data);
 
             setLoading(false);
@@ -121,6 +121,14 @@ const ManageInventory = () => {
                     }
                 </tbody>
             </table>
+
+            <div className="my-2 text-center">
+                {
+                    [...Array(totalPage).keys()].map(x=>
+                        <button onClick={()=>setPage(x)} key={x} className={`btn py-1 px-3 border-[1px] border-gray-400 rounded-lg mx-1 ${page === x && 'bg-primary text-white'}`}>{x+1}</button>
+                        )
+                }
+            </div>
         </>
 
         )
