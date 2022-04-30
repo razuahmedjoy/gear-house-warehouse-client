@@ -39,8 +39,8 @@ const TeamMembers = () => {
     };
 
     const singleMemberBg = {
-        background: "linear-gradient(181deg, #a961ffb5, #5f6ef3)",
-        color: "#fff"
+        background: "linear-gradient(181deg, rgb(251 245 255), rgb(126 139 255 / 13%))",
+        color: "#000"
     }
 
     const members = [
@@ -57,7 +57,7 @@ const TeamMembers = () => {
                 {
                     members.map((member, index) =>
                         <div key={index} className="single-member p-5 flex justify-center items-center text-center gap-5">
-                            <div style={singleMemberBg} className="p-5 rounded-3xl">
+                            <div style={singleMemberBg} className="p-5 rounded-3xl shadow-md shadow-purple-200">
                                 <div className="text-center d-flex justify-center items-center mb-4">
                                     <img width="80px" height="80px" className="rounded-full text-center mx-auto border-[6px] shadow-md border-white" src="https://pickaface.net/gallery/avatar/unr_test_161024_0535_9lih90.png" alt="avatar" />
                                 </div>

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 const SingleInventory = () => {
     const { id } = useParams()
@@ -64,7 +64,7 @@ const SingleInventory = () => {
             setItem(newItem)
 
             e.target.reset()
-            
+
             toast("Updated")
             
 
@@ -99,12 +99,9 @@ const SingleInventory = () => {
                     <div>
                        
                         <button className="btn p-2 px-6 rounded-full bg-primary hover:bg-gray-900 duration-200 text-white" onClick={()=>makeDelivered(item._id)}>Delivered</button>
+                        
 
-                        <div className="flex justify-center items-center">
-                            <hr />
-                            <p className="my-2 mx-2">Or</p>
-                            <hr />
-                        </div>
+                     
                         <form onSubmit={updateQuantity} className="form mt-5 flex justify-center flex-col items-center gap-4">
                             <label htmlFor="quantity">Update Quantity</label>
 
@@ -112,8 +109,18 @@ const SingleInventory = () => {
                             <input type="submit" className="btn p-2 px-6 rounded-full font-bold border-2 border-primary text-primary cursor-pointer hover:bg-primary hover:text-white duration-300" value="Update" />
 
                         </form>
+
+                        <div className="flex justify-center items-center">
+                          
+                            <p className="my-2 mx-2">Or</p>
+                    
+                        </div>
+                        <Link className="block w-3/4 text-center md:w-1/3 btn bg-gradient-to-r from-cyan-500 to-blue-500 py-2 px-6 mx-auto rounded-full text-white" to={'/manage-inventory'}>Manage Inventories</Link>
+
                     </div>
 
+
+                  
                 </div>
             </div>
 

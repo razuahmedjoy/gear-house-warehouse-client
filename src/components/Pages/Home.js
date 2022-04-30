@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Footer from '../Partials/Footer/Footer';
 import HomeSlider from '../Partials/HomeSlider/HomeSlider';
 import InventoryItems from '../Partials/InventoryItems/InventoryItems';
@@ -19,6 +20,10 @@ const Home = () => {
                 <hr className="w-1/4 mt-5 text-center m-auto border-blue-800" />
                 <div className="invetory-items my-5 px-5 md:px-10">
                     <InventoryItems />
+                </div>
+
+                <div className="mt-5 flex justify-center">
+                    <Link className="btn bg-gradient-to-r from-cyan-500 to-blue-500 py-2 px-6 mx-auto rounded-full text-white" to={'/manage-inventory'}>Manage Inventories</Link>
                 </div>
             </section>
 
