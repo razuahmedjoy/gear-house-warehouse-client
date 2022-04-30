@@ -56,13 +56,13 @@ const TeamMembers = () => {
             <Slider {...settings}>
                 {
                     members.map((member, index) =>
-                        <div className="single-member p-5 flex justify-center items-center text-center gap-5">
+                        <div key={index} className="single-member p-5 flex justify-center items-center text-center gap-5">
                             <div style={singleMemberBg} className="p-5 rounded-3xl">
                                 <div className="text-center d-flex justify-center items-center mb-4">
                                     <img width="80px" height="80px" className="rounded-full text-center mx-auto border-[6px] shadow-md border-white" src="https://pickaface.net/gallery/avatar/unr_test_161024_0535_9lih90.png" alt="avatar" />
                                 </div>
                                 <p className="font-bold">{member.name}</p>
-                                <p className="text-xs mt-2 font-light text-yellow-200">{member.designation}</p>
+                                <p className="text-xs mt-2 font-bold">{member.designation}</p>
                             </div>
 
 
