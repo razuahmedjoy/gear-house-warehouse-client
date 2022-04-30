@@ -8,6 +8,7 @@ const navigation = [
     { name: 'Home' },
     { name: 'Blogs' },
     { name: 'About' },
+    { name: 'Login' },
 
 ]
 
