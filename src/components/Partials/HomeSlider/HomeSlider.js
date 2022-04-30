@@ -26,11 +26,7 @@ const HomeSlider = () => {
                         data-bs-slide-to="1"
                         aria-label="Slide 1"
                     ></button>
-                    <button
-                        data-bs-target="#carouselDarkVariant"
-                        data-bs-slide-to="2"
-                        aria-label="Slide 1"
-                    ></button>
+
                 </div>
 
 
@@ -45,6 +41,7 @@ const HomeSlider = () => {
                         <div class="carousel-caption absolute text-center md:text-left">
                             <h5 class="text-xl md:text-6xl font-bold text-white">Welcome to <span class="text-primary">Gear House</span></h5>
                             <p class="text-sm md:text-xl text-white">We have a great collection og Bikes that are takes as dealership and delivered with proper maintenance</p>
+                            <button href="/" className="btn py-2 px-6 bg-primary text-white font-semibold rounded-full my-2 hover:bg-blue-600 duration-200">Inventories</button>
                         </div>
                     </div>
 
@@ -59,6 +56,7 @@ const HomeSlider = () => {
                             <h5 class="text-xl md:text-6xl font-bold text-white">TSK 950CC Two Disk</h5>
                             <p class="text-sm md:text-xl text-white">Strong engine options, including a plug-in hybrid
                                 greenStandard adaptive air suspension delivers a comfortable</p>
+                            <button href="/" className="btn py-2 px-6 bg-primary text-white font-semibold rounded-full my-2 hover:bg-blue-600 duration-200">Inventories</button>
                         </div>
                     </div>
 
