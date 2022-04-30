@@ -1,15 +1,16 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-
+import { toast } from 'react-toastify';
 const SingleInventory = () => {
     const { id } = useParams()
-    const [item, setItem] = useState([])
+    const [item, setItem] = useState({})
+
 
     useEffect(() => {
 
         const getSingleItem = async () => {
-
+            
             try {
 
                 const res = await axios.get(`http://localhost:8000/inventory/${id}`);
@@ -24,6 +25,57 @@ const SingleInventory = () => {
 
     }, [])
 
+    const makeDelivered = async (itemid) => {
+
+        try{
+            
+            const delivering = toast.loading("Processing..")
+
+            const res = await axios.get(`http://localhost:8000/delivered/${itemid}`);
+
+            // console.log(res.data)
+
+            const newItem = {...item, quantity: item.quantity - 1}
+            setItem(newItem)
+            // console.log(newItem)
+
+            toast.update(delivering,{render:"Delivered",type:"success", isLoading:false,autoClose:5000,
+            hideProgressBar:false})
+            
+            
+
+        }
+        catch (e) {
+            console.log(e)
+        }
+    
+        
+
+
+    }
+
+    const updateQuantity = async (e) => {
+        e.preventDefault()
+        const qty = parseInt(e.target.qty.value) + parseInt(item.quantity);
+        try{
+            const res = await axios.post(`http://localhost:8000/update/${item._id}`,{qty});
+
+            const newItem = {...item, quantity: qty}
+            setItem(newItem)
+
+            e.target.reset()
+            
+            toast("Updated")
+            
+
+
+        }
+        catch (e) {
+            console.log(e)
+        }
+        
+
+    }
 
     return (
         <div className="w-full px-5 md:px-10">
@@ -42,18 +94,22 @@ const SingleInventory = () => {
 
                     <p className="text-md my-2">{item.description}</p>
 
+           
+
                     <div>
-                        <button className="btn p-2 px-6 rounded-full bg-primary hover:bg-gray-900 duration-200 text-white">Delivered</button>
+                       
+                        <button className="btn p-2 px-6 rounded-full bg-primary hover:bg-gray-900 duration-200 text-white" onClick={()=>makeDelivered(item._id)}>Delivered</button>
+
                         <div className="flex justify-center items-center">
                             <hr />
                             <p className="my-2 mx-2">Or</p>
                             <hr />
                         </div>
-                        <form className="form mt-5 flex justify-center flex-col items-center gap-4">
+                        <form onSubmit={updateQuantity} className="form mt-5 flex justify-center flex-col items-center gap-4">
                             <label htmlFor="quantity">Update Quantity</label>
-                            
-                            <input className="py-2 px-6 border-none outline-none bg-gray-200 rounded-full" type="number" name="quantity" id="" />
-                            <input type="submit" className="btn p-2 px-6 rounded-full font-bold border-2 border-primary text-primary cursor-pointer hover:bg-primary hover:text-white duration-300" value="Update"/>
+
+                            <input className="py-2 px-6 border-none outline-none bg-gray-200 rounded-full" type="number" name="qty" id="" required/>
+                            <input type="submit" className="btn p-2 px-6 rounded-full font-bold border-2 border-primary text-primary cursor-pointer hover:bg-primary hover:text-white duration-300" value="Update" />
 
                         </form>
                     </div>
