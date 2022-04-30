@@ -25,7 +25,7 @@ const Home = () => {
 
             {/* Team  Details */}
 
-            <section className="team-section py-20">
+            <section className="team-section py-20 px-5">
 
                 <h1 className="text-center text-2xl md:text-4xl text-primary uppercase font-semibold">
                     Our Teams
@@ -41,7 +41,7 @@ const Home = () => {
 
             {/* blogs */}
             <section className="blogs bg-gray-900">
-                
+
 
                 <div className="blogs">
 
@@ -55,11 +55,21 @@ const Home = () => {
 
 
             {/* footer */}
+            <section>
 
-            <section className="footer py-10 bg-indigo-900 px-5 md:px-10">
 
-                <Footer />
+                <div className="footer py-10 bg-indigo-900 px-5 md:px-10">
 
+                    <Footer />
+
+                </div>
+
+                <div className="bg-gray-900">
+                    <p className="text-center text-white py-2">
+                     Designed by <span className="text-primary"> <a href="/">Razu Ahmed Joy</a></span> 
+                     <span> &copy; Copyright {new Date().getFullYear()} </span>
+                    </p>
+                </div>
             </section>
 
 
