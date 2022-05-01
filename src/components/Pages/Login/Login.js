@@ -2,21 +2,14 @@ import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, useNavigate } from "react-router-dom";
 import auth from "../../../firebase.init";
+import LoadingSpinner from "../../Partials/LoadingSpinner/LoadingSpinner";
 import SocialLogin from "../../Partials/SocialLogin/SocialLogin";
 const Login = () => {
 
   const [user, loading] = useAuthState(auth)
   const navigate = useNavigate()
 
-  const Loading = () => {
-    return (
-      <div className="flex justify-center items-center">
-        <div className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
-      </div>
-    )
-  }
+  
 
   if (user) {
     navigate('/')
@@ -25,7 +18,7 @@ const Login = () => {
   return (
     <div className="my-5">
       <div className="card max-w-sm mx-auto">
-        {loading ? <Loading /> :
+        {loading ? <LoadingSpinner /> :
           <div className="block p-6 rounded-lg shadow-lg bg-white">
             <h2 className="text-3xl text-center mb-5">Login</h2>
             <form autoComplete="off">

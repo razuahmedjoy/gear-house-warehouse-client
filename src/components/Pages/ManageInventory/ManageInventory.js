@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import LoadingSpinner from '../../Partials/LoadingSpinner/LoadingSpinner';
 
 const ManageInventory = () => {
 
@@ -44,15 +45,7 @@ const ManageInventory = () => {
     }, [page])
 
 
-    const Spinner = () => {
-        return (
-            <div className="flex justify-center items-center">
-                <div className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                </div>
-            </div>
-        )
-    }
+  
 
     const deleteItem = async (productId) => {
         const res = await axios.post(`http://localhost:8000/delete`,{id:productId})
@@ -148,7 +141,7 @@ const ManageInventory = () => {
                             <div className="overflow-x-auto">
 
 
-                                {loading ? <Spinner /> : <InventoryTableData />}
+                                {loading ? <LoadingSpinner /> : <InventoryTableData />}
 
 
                             </div>
