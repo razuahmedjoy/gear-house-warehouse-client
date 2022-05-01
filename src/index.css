@@ -41,7 +41,7 @@ input[type=number] {
     @apply w-full
     px-6
     py-2.5
-    bg-blue-600
+    bg-primary
     text-white
     font-medium
     text-xs

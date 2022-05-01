@@ -1,14 +1,21 @@
 import React, { Fragment } from 'react';
 
 import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
-import { NavLink } from 'react-router-dom';
+import { MenuIcon, XIcon } from '@heroicons/react/outline'
+import { Link, NavLink } from 'react-router-dom';
 import './Header.css'
+import auth from '../../../firebase.init';
+import { useAuthState } from 'react-firebase-hooks/auth';
+
+import { signOut } from 'firebase/auth';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSignIn } from '@fortawesome/free-solid-svg-icons';
+
 const navigation = [
     { name: 'Home' },
     { name: 'Blogs' },
     { name: 'About' },
-    { name: 'Login' },
+
 
 ]
 
@@ -17,6 +24,8 @@ function classNames(...classes) {
 }
 
 const Header = () => {
+
+    const [user, loading] = useAuthState(auth)
 
 
     return (
@@ -61,9 +70,33 @@ const Header = () => {
                                         </div>
                                     </div>
                                 </div>
-                                    <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 z-[999]">
+                                <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 z-[999]">
 
                                     {/* Profile dropdown */}
+
+                                    {!user ? 
+                                    <>
+                                    <NavLink
+                                
+                                    to={`/login`}
+                                    className={'px-3 py-2 rounded-md text-base font-medium text-white hidden sm:block'}
+
+                                    >
+                                   <FontAwesomeIcon icon={faSignIn} />
+                                    </NavLink> 
+                                    <NavLink
+                                
+                                    to={`/register`}
+                                    className={'block px-3 py-2 rounded-md text-base font-medium text-white'}
+
+                                    >
+                                    SignUp
+                                    </NavLink> 
+
+                                    </>
+                                    
+                                    :
+                                              
                                     <Menu as="div" className="ml-3 relative">
                                         <div>
                                             <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
@@ -87,37 +120,41 @@ const Header = () => {
                                             <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                 <Menu.Item>
                                                     {({ active }) => (
-                                                        <a
-                                                            href="/"
+                                                        <Link
+                                                            
+                                                            to={'/manage-inventory'}
                                                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                                         >
-                                                            Your Profile
-                                                        </a>
+                                                            Manage Inventories
+                                                        </Link>
                                                     )}
                                                 </Menu.Item>
                                                 <Menu.Item>
                                                     {({ active }) => (
-                                                        <a
-                                                            href="/"
+                                                        <Link
+                                                            to="/"
                                                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                                         >
-                                                            Settings
-                                                        </a>
+                                                            My Items
+                                                        </Link>
                                                     )}
                                                 </Menu.Item>
                                                 <Menu.Item>
                                                     {({ active }) => (
-                                                        <a
-                                                            href="/"
+                                                        <Link
+                                                            to="#"
+                                                            onClick={()=>signOut(auth)}
                                                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                                         >
                                                             Sign out
-                                                        </a>
+                                                        </Link>
                                                     )}
                                                 </Menu.Item>
                                             </Menu.Items>
                                         </Transition>
                                     </Menu>
+
+                                     }
                                 </div>
                             </div>
                         </div>

@@ -7,6 +7,7 @@ import Header from './components/Partials/Header/Header';
 import { ToastContainer } from 'react-toastify';
 import ManageInventory from './components/Pages/ManageInventory/ManageInventory';
 import Login from './components/Pages/Login/Login';
+import Register from './components/Pages/Register/Register';
 function App() {
   return (
     <div className="App">
@@ -17,6 +18,7 @@ function App() {
         <Route path="/home" element={<Home />}></Route>
         <Route path="/blogs" element={<Blogs />}></Route>
         <Route path="/login" element={<Login />}></Route>
+        <Route path="/register" element={<Register />}></Route>
         <Route path="/inventory/:id" element={<SingleInventory />}></Route>
         <Route path="/manage-inventory" element={<ManageInventory />}></Route>
       </Routes>
