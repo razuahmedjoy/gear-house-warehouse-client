@@ -2,6 +2,7 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import LoadingSpinner from '../../Partials/LoadingSpinner/LoadingSpinner';
 
@@ -129,12 +130,16 @@ const ManageInventory = () => {
 
     return (
         <div>
-            <div className="py-2 mb-5">
-                <button className="btn bg-gray-900 py-2 px-6 rounded-full text-white text-center block mx-auto">Manage Inventories</button>
-
+            <div className="pt-5 mb-5 px-2 md:px-10 text-center sm:text-left">
+                <Link to="/add-item" className="btn border-2 border-primary py-2 px-6 rounded-full text-primary text-center mx-auto hover:bg-primary hover:text-white duration-300">Add New Item</Link>
+             
             </div>
+      
 
             <div className="inventories w-full px-1 md:px-10">
+
+            <button className="btn bg-gray-900 py-2 px-6 rounded-full text-white text-center block mx-auto">All Inventories</button>
+
                 <div className="flex flex-col">
                     <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
