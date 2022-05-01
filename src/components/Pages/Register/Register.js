@@ -3,6 +3,7 @@ import { useAuthState, useCreateUserWithEmailAndPassword } from 'react-firebase-
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import auth from '../../../firebase.init';
+import useToken from '../../../hooks/useToken';
 import LoadingSpinner from '../../Partials/LoadingSpinner/LoadingSpinner';
 import SocialLogin from '../../Partials/SocialLogin/SocialLogin';
 
@@ -24,10 +25,11 @@ const Register = () => {
         user1,
         loading1,
         error,
-    ] = useCreateUserWithEmailAndPassword(auth);
+    ] = useCreateUserWithEmailAndPassword(auth,{sendEmailVerification:true});
 
+    const [token] = useToken(user);
 
-    if (user || user1) {
+    if (token) {
         navigate(from, { replace: true })
     }
 

@@ -3,6 +3,7 @@ import { useAuthState, useSignInWithEmailAndPassword } from "react-firebase-hook
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import auth from "../../../firebase.init";
+import useToken from "../../../hooks/useToken";
 import LoadingSpinner from "../../Partials/LoadingSpinner/LoadingSpinner";
 import SocialLogin from "../../Partials/SocialLogin/SocialLogin";
 const Login = () => {
@@ -15,6 +16,7 @@ const Login = () => {
   // console.log(location)
   const from = location?.state?.from?.pathname || '/'
 
+
   const [
     signInWithEmailAndPassword,
     user1,
@@ -22,12 +24,13 @@ const Login = () => {
     error,
   ] = useSignInWithEmailAndPassword(auth);
 
+  const [token] = useToken(user);
 
 
 
   
   
-  if (user || user1) {
+  if (token) {
     navigate(from, {replace:true})
   }
 

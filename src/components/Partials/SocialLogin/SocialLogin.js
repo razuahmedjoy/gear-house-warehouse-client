@@ -3,9 +3,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import auth from '../../../firebase.init';
 
-import { useSignInWithGoogle,useSignInWithGithub } from 'react-firebase-hooks/auth';
+import { useSignInWithGoogle,useSignInWithGithub, useAuthState } from 'react-firebase-hooks/auth';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import useToken from '../../../hooks/useToken';
 
 
 const SocialLogin = () => {
@@ -18,9 +18,13 @@ const SocialLogin = () => {
         errorMsg = ''
     }
     
-    const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
+    const [user] = useAuthState(auth)
 
-    const [signInWithGithub, user2, loading2, error2] = useSignInWithGithub(auth);
+    const [signInWithGoogle , loading, error] = useSignInWithGoogle(auth);
+
+    const [signInWithGithub, loading2, error2] = useSignInWithGithub(auth);
+
+    const [token] = useToken(user);
 
     const navigate = useNavigate()
 
@@ -33,7 +37,8 @@ const SocialLogin = () => {
         signInWithGithub();
     }
 
-    if(user || user2){
+
+    if(token){
 
         navigate(from, {replace: true});
 

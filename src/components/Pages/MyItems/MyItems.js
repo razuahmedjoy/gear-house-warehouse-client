@@ -1,17 +1,23 @@
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
+import { signOut } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import auth from '../../../firebase.init';
+import axiosPrivate from '../../api/axiosPrivate';
 import LoadingSpinner from '../../Partials/LoadingSpinner/LoadingSpinner';
 
-const ManageInventory = () => {
+const MyItems = () => {
 
+    const [user] = useAuthState(auth)
     const [inventories, setInventories] = useState([]);
     const [perPage, setPerPage] = useState(8);
     const [page, setPage] = useState(0)
     const [totalPage, setTotalPage] = useState(0);
+    const navigate = useNavigate()
 
     const [loading, setLoading] = useState(false)
 
@@ -20,9 +26,11 @@ const ManageInventory = () => {
 
         const getTotalCount = async () => {
 
-            const res = await axios.get(`http://localhost:8000/inventories?count=True`);
-            const { totalCount } = res.data;
+            const res = await axiosPrivate.post(`http://localhost:8000/my-inventories`, { email: user?.email });
+            const totalCount = res.data.length;
+            console.log(totalCount)
             const pageCount = Math.ceil(totalCount / perPage);
+            // console.log(pageCount)
             setTotalPage(pageCount);
 
         }
@@ -34,29 +42,40 @@ const ManageInventory = () => {
     useEffect(() => {
         setLoading(true)
         const getInventories = async () => {
-            const res = await axios.get(`http://localhost:8000/inventories?page=${page}&perpage=${perPage}`);
-            const { data } = res;
-            // console.log(data)
-            setInventories(data);
+            try {
+                const res = await axiosPrivate.post(`http://localhost:8000/my-inventories?page=${page}&perpage=${perPage}`, { email: user?.email });
 
+                const { data } = res;
+                // console.log(data)
+                setInventories(data);
+
+
+
+            }
+            catch (e) {
+                console.log(e);
+                if (e.response.status === 401 || e.response.status === 403) {
+                    signOut(auth);
+                    navigate('/login');
+                }
+            }
             setLoading(false);
         }
         getInventories();
 
     }, [page])
 
-
-  
-
     const deleteItem = async (productId) => {
-        const res = await axios.post(`http://localhost:8000/delete`,{id:productId})
-        const {data} = res;
-        if (data.deletedCount === 1){
+        const res = await axios.post(`http://localhost:8000/delete`, { id: productId })
+        const { data } = res;
+        if (data.deletedCount === 1) {
             const newInventoryList = inventories.filter(item => item._id !== productId)
             setInventories(newInventoryList);
             toast("Item deleted")
         }
     }
+
+
 
     const InventoryTableData = () => {
         return (<>
@@ -95,9 +114,7 @@ const ManageInventory = () => {
                                 </div>
                             </td>
                             <td className="text-sm text-gray-900 font-light px-6 py-4">
-                               <strong className="font-bold"> {item.name}</strong>
-                                <br></br>
-                                <p className="text-xs">{item.description.substring(0,80)}...</p>
+                                {item.name}
                             </td>
                             <td className="text-sm text-gray-900 font-light px-6 py-4">
                                 {item.quantity}
@@ -115,32 +132,29 @@ const ManageInventory = () => {
                         </tr>
                     )
                     }
+                   
                 </tbody>
+     
             </table>
 
             <div className="my-2 text-center">
                 {
-                    [...Array(totalPage).keys()].map(x=>
-                        <button onClick={()=>setPage(x)} key={x} className={`btn py-1 px-3 border-[1px] border-gray-400 rounded-lg mx-1 ${page === x && 'bg-primary text-white'}`}>{x+1}</button>
-                        )
+                    [...Array(totalPage).keys()].map(x =>
+                        <button onClick={() => setPage(x)} key={x} className={`btn py-1 px-3 border-[1px] border-gray-400 rounded-lg mx-1 ${page === x && 'bg-primary text-white'}`}>{x + 1}</button>
+                    )
                 }
             </div>
+
+            {inventories.length === 0 && <p class="text-center my-3 text-red-600 text-lg">You didn't added any item. Please Add any item from Manage Inventory page</p>}
         </>
 
         )
     }
-
     return (
         <div>
-            <div className="pt-5 mb-5 px-2 md:px-10 text-center sm:text-left">
-                <Link to="/add-item" className="btn border-2 border-primary py-2 px-6 rounded-full text-primary text-center mx-auto hover:bg-primary hover:text-white duration-300">Add New Item</Link>
-             
-            </div>
-      
-
             <div className="inventories w-full px-1 md:px-10">
 
-            <button className="btn bg-gray-900 py-2 px-6 rounded-full text-white text-center block mx-auto">All Inventories</button>
+                <button className="btn bg-gray-900 py-2 px-6 rounded-full text-white text-center block mx-auto my-5">My Items</button>
 
                 <div className="flex flex-col">
                     <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -151,13 +165,15 @@ const ManageInventory = () => {
                                 {loading ? <LoadingSpinner /> : <InventoryTableData />}
 
 
+
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div >
+        </div>
     );
 };
 
-export default ManageInventory;
+export default MyItems;
