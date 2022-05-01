@@ -1,27 +1,53 @@
-import React from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useAuthState, useCreateUserWithEmailAndPassword, useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import auth from "../../../firebase.init";
 import LoadingSpinner from "../../Partials/LoadingSpinner/LoadingSpinner";
 import SocialLogin from "../../Partials/SocialLogin/SocialLogin";
 const Login = () => {
 
+
   const [user, loading] = useAuthState(auth)
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+  const location = useLocation()
+  // console.log(location)
+  const from = location?.state?.from?.pathname || '/'
+
+  const [
+    signInWithEmailAndPassword,
+    user1,
+    loading1,
+    error,
+  ] = useSignInWithEmailAndPassword(auth);
+
+
+
 
   
 
-  if (user) {
-    navigate('/')
+  if (user || user1) {
+    navigate(from, {replace:true})
+  }
+
+  const handleLoginForm = (e) => {
+
+    e.preventDefault();
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    // createUserWithEmailAndPassword(email, password)
+
+    
   }
 
   return (
     <div className="my-5">
       <div className="card max-w-sm mx-auto">
-        {loading ? <LoadingSpinner /> :
+        {loading || loading1 ? <LoadingSpinner /> :
           <div className="block p-6 rounded-lg shadow-lg bg-white">
             <h2 className="text-3xl text-center mb-5">Login</h2>
-            <form autoComplete="off">
+            <form onSubmit={handleLoginForm} autoComplete="off">
               <div className="form-group mb-6">
                 <label
                   htmlFor="exampleInputEmail2"
@@ -33,7 +59,7 @@ const Login = () => {
                   type="email"
                   className="input-custom"
                   id="exampleInputEmail2"
-                  aria-describedby="emailHelp"
+                  name="email"
                   placeholder="Enter email"
                   required
                 />
@@ -48,7 +74,7 @@ const Login = () => {
                 <input
                   type="password"
                   className="input-custom"
-                  id="exampleInputPassword2"
+                  name="password"
                   placeholder="Password"
                   required
                 />

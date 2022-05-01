@@ -3,23 +3,51 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import auth from '../../../firebase.init';
 
-import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
-import { useNavigate } from 'react-router-dom';
+import { useSignInWithGoogle,useSignInWithGithub } from 'react-firebase-hooks/auth';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
 
 const SocialLogin = () => {
 
+    const location = useLocation()
+    const from = location?.state?.from?.pathname || '/'
+    
+    let errorMsg;
+    const clearError = () => {
+        errorMsg = ''
+    }
+    
     const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
+
+    const [signInWithGithub, user2, loading2, error2] = useSignInWithGithub(auth);
+
     const navigate = useNavigate()
 
     const handleGoogleSignIn = () =>{
+        clearError();
         signInWithGoogle();
     }
+    const handleGithubSignIn = () =>{
+        clearError();
+        signInWithGithub();
+    }
 
-    if(user){
+    if(user || user2){
 
-        navigate('/')
+        navigate(from, {replace: true});
 
     }
+
+    if(error || error2){
+   
+        errorMsg = error?.message || error2?.message;
+        
+        
+    }
+   
+    
+    
 
 
     return (
@@ -32,8 +60,12 @@ const SocialLogin = () => {
             </div>
             <div className="social-icons flex justify-center gap-2 mt-2">
                 <FontAwesomeIcon onClick={handleGoogleSignIn} className="btn rounded-full border-[1px] border-primary p-3 cursor-pointer hover:bg-primary hover:text-white duration-300" icon={faGoogle} />
-                <FontAwesomeIcon className="btn rounded-full border-[1px] border-primary p-3 cursor-pointer hover:bg-primary hover:text-white duration-300" icon={faGithub} />
+                <FontAwesomeIcon onClick={handleGithubSignIn} className="btn rounded-full border-[1px] border-primary p-3 cursor-pointer hover:bg-primary hover:text-white duration-300" icon={faGithub} />
             </div>
+
+            {
+                errorMsg && <p className="text-red-600 py-2">{errorMsg}</p>
+            }
 
         </>
 
