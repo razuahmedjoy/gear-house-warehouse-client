@@ -78,7 +78,7 @@ const SingleInventory = () => {
     }
 
     return (
-        <div className="w-full px-5 md:px-10">
+        <div className="w-full px-5 pb-20 md:px-10">
 
             <div className="grid grid-cols md:grid-cols-2 gap-5">
                 <div className="p-2 md:p-4">

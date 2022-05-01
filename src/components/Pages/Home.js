@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Footer from '../Partials/Footer/Footer';
 import HomeSlider from '../Partials/HomeSlider/HomeSlider';
 import InventoryItems from '../Partials/InventoryItems/InventoryItems';
 import TeamMembers from '../Partials/TeamMembers/TeamMembers';
@@ -58,24 +57,7 @@ const Home = () => {
 
             </section>
 
-
-            {/* footer */}
-            <section>
-
-
-                <div className="footer py-10 bg-indigo-900 px-5 md:px-10">
-
-                    <Footer />
-
-                </div>
-
-                <div className="bg-gray-900">
-                    <p className="text-center text-white py-2">
-                     Designed by <span className="text-primary"> <a href="/">Razu Ahmed Joy</a></span> 
-                     <span> &copy; Copyright {new Date().getFullYear()} </span>
-                    </p>
-                </div>
-            </section>
+               
 
 
 

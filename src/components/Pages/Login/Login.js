@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useAuthState, useCreateUserWithEmailAndPassword, useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { useAuthState, useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import auth from "../../../firebase.init";
@@ -26,7 +26,7 @@ const Login = () => {
 
 
   
-
+  
   if (user || user1) {
     navigate(from, {replace:true})
   }
@@ -36,7 +36,7 @@ const Login = () => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
-    // createUserWithEmailAndPassword(email, password)
+    signInWithEmailAndPassword(email, password)
 
     
   }
@@ -44,7 +44,7 @@ const Login = () => {
   return (
     <div className="my-5">
       <div className="card max-w-sm mx-auto">
-        {loading || loading1 ? <LoadingSpinner /> :
+        {loading ? <LoadingSpinner /> :
           <div className="block p-6 rounded-lg shadow-lg bg-white">
             <h2 className="text-3xl text-center mb-5">Login</h2>
             <form onSubmit={handleLoginForm} autoComplete="off">
@@ -79,6 +79,8 @@ const Login = () => {
                   required
                 />
               </div>
+              {error ? <p className="text-center text-red-600 text-md mb-2">{error?.message}</p> : '' }
+              
               <div className="flex justify-between items-center mb-6">
                 <div className="form-group form-check">
                   <input
@@ -100,9 +102,11 @@ const Login = () => {
                   Forgot password?
                 </a>
               </div>
-              <button type="submit" className="input-button">
+
+              { loading1 ? <LoadingSpinner /> : <button type="submit" className="input-button">
                 Sign in
-              </button>
+              </button> }
+              
 
               <div className="social-login">
                 <SocialLogin />

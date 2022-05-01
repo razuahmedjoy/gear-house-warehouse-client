@@ -31,6 +31,10 @@ const Register = () => {
         navigate(from, { replace: true })
     }
 
+    if(loading) {
+        return <LoadingSpinner />
+    }
+
 
     if(error) {
         errorMsg = error?.message;
@@ -115,7 +119,7 @@ const Register = () => {
                                 />
                             </div>
                            {errorMsg ? <p className="text-center text-sm text-red-600 mb-2">{errorMsg}</p> : ''}
-                           {loading || loading1 ? <LoadingSpinner /> :
+                           {loading1 ? <LoadingSpinner /> :
                             <button type="submit" className="input-button">
                                 Create Account
                             </button>

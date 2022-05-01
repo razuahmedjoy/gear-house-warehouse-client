@@ -9,6 +9,7 @@ import ManageInventory from './components/Pages/ManageInventory/ManageInventory'
 import Login from './components/Pages/Login/Login';
 import Register from './components/Pages/Register/Register';
 import RequireAuth from './components/Partials/RequireAuth';
+import Footer from './components/Partials/Footer/Footer';
 function App() {
   return (
     <div className="App">
@@ -23,8 +24,12 @@ function App() {
 
         <Route path="/inventory/:id" element={<RequireAuth><SingleInventory /></RequireAuth>}></Route>
 
-        <Route path="/manage-inventory" element={<ManageInventory />}></Route>
+        <Route path="/manage-inventory" element={<RequireAuth><ManageInventory /></RequireAuth>}></Route>
       </Routes>
+    
+           
+       <Footer />
+
 
     </div>
   );
