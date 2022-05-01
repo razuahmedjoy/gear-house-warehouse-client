@@ -1,20 +1,27 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import Skeleton from 'react-loading-skeleton';
 import { Link, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import LoadingSpinner from '../../Partials/LoadingSpinner/LoadingSpinner';
 const SingleInventory = () => {
     const { id } = useParams()
     const [item, setItem] = useState({})
-
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
 
+        setLoading(true)
+
         const getSingleItem = async () => {
-            
+
             try {
 
                 const res = await axios.get(`http://localhost:8000/inventory/${id}`);
                 setItem(res.data);
+
+                setLoading(false)
+
             }
             catch (e) {
                 console.log(e)
@@ -27,29 +34,31 @@ const SingleInventory = () => {
 
     const makeDelivered = async (itemid) => {
 
-        try{
-            
+        try {
+
             const delivering = toast.loading("Processing..")
 
             const res = await axios.get(`http://localhost:8000/delivered/${itemid}`);
 
             // console.log(res.data)
 
-            const newItem = {...item, quantity: item.quantity - 1}
+            const newItem = { ...item, quantity: item.quantity - 1 }
             setItem(newItem)
             // console.log(newItem)
 
-            toast.update(delivering,{render:"Delivered",type:"success", isLoading:false,autoClose:5000,
-            hideProgressBar:false})
-            
-            
+            toast.update(delivering, {
+                render: "Delivered", type: "success", isLoading: false, autoClose: 5000,
+                hideProgressBar: false
+            })
+
+
 
         }
         catch (e) {
             console.log(e)
         }
-    
-        
+
+
 
 
     }
@@ -57,24 +66,46 @@ const SingleInventory = () => {
     const updateQuantity = async (e) => {
         e.preventDefault()
         const qty = parseInt(e.target.qty.value) + parseInt(item.quantity);
-        try{
-            const res = await axios.post(`http://localhost:8000/update/${item._id}`,{qty});
+        try {
+            const res = await axios.post(`http://localhost:8000/update/${item._id}`, { qty });
 
-            const newItem = {...item, quantity: qty}
+            const newItem = { ...item, quantity: qty }
             setItem(newItem)
 
             e.target.reset()
 
             toast("Updated")
-            
+
 
 
         }
         catch (e) {
             console.log(e)
         }
-        
 
+
+    }
+
+    if (loading) {
+        return (
+            <>
+
+
+                <div className="grid grid-cols-2 py-10 px-2 md:px-10 gap-10">
+                    <Skeleton height={200} />
+                    <div>
+                        <Skeleton height={60} />
+                        <Skeleton width={100} height={30} />
+                        <Skeleton width={150} height={20} />
+                        <Skeleton height={80} />
+                    </div>
+
+
+                </div>
+
+
+            </>
+        )
     }
 
     return (
@@ -94,33 +125,33 @@ const SingleInventory = () => {
 
                     <p className="text-md my-2">{item.description}</p>
 
-           
+
 
                     <div>
-                       
-                        <button className="btn p-2 px-6 rounded-full bg-primary hover:bg-gray-900 duration-200 text-white" onClick={()=>makeDelivered(item._id)}>Delivered</button>
-                        
 
-                     
+                        <button className="btn p-2 px-6 rounded-full bg-primary hover:bg-gray-900 duration-200 text-white" onClick={() => makeDelivered(item._id)}>Delivered</button>
+
+
+
                         <form onSubmit={updateQuantity} className="form mt-5 flex justify-center flex-col items-center gap-4">
                             <label htmlFor="quantity">Update Quantity</label>
 
-                            <input className="py-2 px-6 border-none outline-none bg-gray-200 rounded-full" type="number" name="qty" id="" required/>
+                            <input className="py-2 px-6 border-none outline-none bg-gray-200 rounded-full" type="number" name="qty" id="" required />
                             <input type="submit" className="btn p-2 px-6 rounded-full font-bold border-2 border-primary text-primary cursor-pointer hover:bg-primary hover:text-white duration-300" value="Update" />
 
                         </form>
 
                         <div className="flex justify-center items-center">
-                          
+
                             <p className="my-2 mx-2">Or</p>
-                    
+
                         </div>
                         <Link className="block w-3/4 text-center md:w-1/3 btn bg-gradient-to-r from-cyan-500 to-blue-500 py-2 px-6 mx-auto rounded-full text-white" to={'/manage-inventory'}>Manage Inventories</Link>
 
                     </div>
 
 
-                  
+
                 </div>
             </div>
 
