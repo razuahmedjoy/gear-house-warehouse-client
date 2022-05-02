@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import HomeSlider from '../Partials/HomeSlider/HomeSlider';
 import InventoryItems from '../Partials/InventoryItems/InventoryItems';
@@ -6,6 +6,7 @@ import TeamMembers from '../Partials/TeamMembers/TeamMembers';
 import Blogs from './Blogs/Blogs';
 
 const Home = () => {
+
     return (
         <div>
             <HomeSlider />
@@ -49,7 +50,7 @@ const Home = () => {
 
                 <div className="blogs">
 
-                    <Blogs />
+                    <Blogs limit={3} />
 
                 </div>
 
@@ -57,7 +58,12 @@ const Home = () => {
 
             </section>
 
-               
+
+          
+
+          
+
+
 
 
 

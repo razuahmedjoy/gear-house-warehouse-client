@@ -7,7 +7,9 @@ const InventoryItems = () => {
     const [inventory, setInventory] = useState([])
     const [loading, setLoading] = useState(false)
 
+
     useEffect(() => {
+        
 
         const getInventories = async () => {
             setLoading(true)
