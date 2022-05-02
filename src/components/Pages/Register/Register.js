@@ -12,7 +12,6 @@ const Register = () => {
     let errorMsg;
 
   
-
     const [user, loading] = useAuthState(auth)
     const navigate = useNavigate();
 
@@ -38,11 +37,12 @@ const Register = () => {
 
 
     if(error) {
-        errorMsg = error?.message;
+        toast.error(errorMsg)
         
     }
 
     const handleCreateAccountForm = (e) => {
+
 
         errorMsg = ''
         e.preventDefault();
@@ -58,12 +58,22 @@ const Register = () => {
         }
         else{
 
-            createUserWithEmailAndPassword(email, password1)
+            const create = async () =>{
+                await createUserWithEmailAndPassword(email, password1);
+               
+            }
+
+            create()
+          
         }
+        
+
    
 
 
     }
+
+   
 
     return (
         <div className="my-5">
@@ -119,8 +129,9 @@ const Register = () => {
                                     required
                                 />
                             </div>
+                           {error ? <p className="text-center text-sm text-red-600 mb-2">{error?.message}</p> : ''}
                            {errorMsg ? <p className="text-center text-sm text-red-600 mb-2">{errorMsg}</p> : ''}
-                           {loading1 ? <LoadingSpinner /> :
+                           {loading1 || loading ? <LoadingSpinner /> :
                             <button type="submit" className="input-button">
                                 Create Account
                             </button>

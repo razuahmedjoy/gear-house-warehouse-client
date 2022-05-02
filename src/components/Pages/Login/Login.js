@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useAuthState, useSendPasswordResetEmail, useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -10,7 +10,7 @@ import SocialLogin from "../../Partials/SocialLogin/SocialLogin";
 const Login = () => {
 
 
-  const [user, loading] = useAuthState(auth)
+  const [user, loading] = useAuthState(auth);
   const navigate = useNavigate();
 
   const emailRef = useRef()
@@ -38,6 +38,7 @@ const Login = () => {
     navigate(from, { replace: true })
   }
 
+
   const handleForgetPassword = (e) => {
     const email = emailRef.current.value;
     const regex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
@@ -51,6 +52,9 @@ const Login = () => {
 
         try {
           await sendPasswordResetEmail(email);
+          toast("Reset Link Sent")
+
+
         }
         catch (e) {
           console.log(e)
@@ -60,6 +64,7 @@ const Login = () => {
 
 
       sendMail()
+     
 
    
 
