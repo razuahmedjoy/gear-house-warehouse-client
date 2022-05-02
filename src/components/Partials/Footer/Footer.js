@@ -2,6 +2,7 @@ import { faFacebook, faGithub, faInstagram, faTwitter } from '@fortawesome/free-
 import { faArrowCircleRight, faEnvelopeOpen, faLocationArrow, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Footer.css'
 
 
@@ -44,13 +45,13 @@ const Footer = () => {
                         <div className="my-5">
                             <ul className="text-white footer-links">
                                 <li>
-                                    <FontAwesomeIcon icon={faArrowCircleRight} className="mr-2" /> <a href="/">About Us</a>
+                                    <FontAwesomeIcon icon={faArrowCircleRight} className="mr-2" /> <Link to="/">About Us</Link>
                                 </li>
                                 <li>
-                                    <FontAwesomeIcon icon={faArrowCircleRight} className="mr-2" /> <a href="/">Our Services</a>
+                                    <FontAwesomeIcon icon={faArrowCircleRight} className="mr-2" /> <Link to="/">Our Services</Link>
                                 </li>
                                 <li>
-                                    <FontAwesomeIcon icon={faArrowCircleRight} className="mr-2" /> <a href="/">Terms & Conditions</a>
+                                    <FontAwesomeIcon icon={faArrowCircleRight} className="mr-2" /> <Link to="/">Terms & Conditions</Link>
                                 </li>
                             </ul>
                         </div>
@@ -61,17 +62,12 @@ const Footer = () => {
                         <div className="my-5">
                             <ul className="text-white footer-links">
                                 <li>
-                                    <FontAwesomeIcon icon={faArrowCircleRight} className="mr-2" /> <a href="/">Inventory</a>
+                                    <FontAwesomeIcon icon={faArrowCircleRight} className="mr-2" /> <Link to="/">Inventory</Link>
                                 </li>
                                 <li>
-                                    <FontAwesomeIcon icon={faArrowCircleRight} className="mr-2" /> <a href="/manage">Manage Inventory</a>
+                                    <FontAwesomeIcon icon={faArrowCircleRight} className="mr-2" /> <Link to="/manage-inventory">Manage Inventory</Link>
                                 </li>
-                                <li>
-                                    <FontAwesomeIcon icon={faArrowCircleRight} className="mr-2" /> <a href="/login">Login</a>
-                                </li>
-                                <li>
-                                    <FontAwesomeIcon icon={faArrowCircleRight} className="mr-2" /> <a href="/register">Register</a>
-                                </li>
+                              
                             </ul>
                         </div>
                     </div>
