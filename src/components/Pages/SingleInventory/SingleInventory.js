@@ -1,61 +1,47 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { Link, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import LoadingSpinner from '../../Partials/LoadingSpinner/LoadingSpinner';
+import useSingleInventory from '../../../hooks/useSingleInventory';
+
 const SingleInventory = () => {
+
     const { id } = useParams()
-    const [item, setItem] = useState({})
-    const [loading, setLoading] = useState(false)
+    // const [item, setItem] = useState({})
+    // const [loading, setLoading] = useState(false)
+    const [item, setItem,loading] = useSingleInventory(id)
 
-    useEffect(() => {
 
-        setLoading(true)
-
-        const getSingleItem = async () => {
-
+    const makeDelivered = async (itemid) => {
+        if (item.quantity > 0) {
             try {
 
-                const res = await axios.get(`http://localhost:8000/inventory/${id}`);
-                setItem(res.data);
+                const delivering = toast.loading("Processing..")
 
-                setLoading(false)
+                const res = await axios.get(`http://localhost:8000/delivered/${itemid}`);
+
+                // console.log(res.data)
+
+                const newItem = { ...item, quantity: item.quantity - 1 }
+                setItem(newItem)
+                // console.log(newItem)
+
+                toast.update(delivering, {
+                    render: "Delivered", type: "success", isLoading: false, autoClose: 5000,
+                    hideProgressBar: false
+                })
+
+
 
             }
             catch (e) {
                 console.log(e)
             }
-
         }
-        getSingleItem()
-
-    }, [])
-
-    const makeDelivered = async (itemid) => {
-
-        try {
-
-            const delivering = toast.loading("Processing..")
-
-            const res = await axios.get(`http://localhost:8000/delivered/${itemid}`);
-
-            // console.log(res.data)
-
-            const newItem = { ...item, quantity: item.quantity - 1 }
-            setItem(newItem)
-            // console.log(newItem)
-
-            toast.update(delivering, {
-                render: "Delivered", type: "success", isLoading: false, autoClose: 5000,
-                hideProgressBar: false
-            })
-
-
-
-        }
-        catch (e) {
-            console.log(e)
+        else{
+            toast.error("You don't have enough to deliver. Please update stock");
+            return;
         }
 
 
@@ -128,9 +114,13 @@ const SingleInventory = () => {
 
 
                     <div>
-
+                        {item.quantity > 0 ? 
+                        
                         <button className="btn p-2 px-6 rounded-full bg-primary hover:bg-gray-900 duration-200 text-white" onClick={() => makeDelivered(item._id)}>Delivered</button>
+                        :
+                        <button className="btn p-2 px-6 rounded-full bg-red-600 text-white">Stock Out</button>
 
+                        }
 
 
                         <form onSubmit={updateQuantity} className="form mt-5 flex justify-center flex-col items-center gap-4">

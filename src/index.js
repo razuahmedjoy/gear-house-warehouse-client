@@ -4,16 +4,25 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
+
 import 'tw-elements';
-import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import 'react-loading-skeleton/dist/skeleton.css'
 import 'react-toastify/dist/ReactToastify.css';
+
+import { MantineProvider } from '@mantine/core';
+import { ModalsProvider } from '@mantine/modals';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
     <React.StrictMode>
-      <App />
+      <MantineProvider>
+        <ModalsProvider>
+          <App />
+        </ModalsProvider>
+      </MantineProvider>
     </React.StrictMode>
   </BrowserRouter>
 );

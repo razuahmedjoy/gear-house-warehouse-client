@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import { useAuthState, useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import React, { useRef } from "react";
+import { useAuthState, useSendPasswordResetEmail, useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+
 import auth from "../../../firebase.init";
 import useToken from "../../../hooks/useToken";
 import LoadingSpinner from "../../Partials/LoadingSpinner/LoadingSpinner";
@@ -11,6 +12,8 @@ const Login = () => {
 
   const [user, loading] = useAuthState(auth)
   const navigate = useNavigate();
+
+  const emailRef = useRef()
 
   const location = useLocation()
   // console.log(location)
@@ -24,14 +27,50 @@ const Login = () => {
     error,
   ] = useSignInWithEmailAndPassword(auth);
 
+  const [sendPasswordResetEmail, sending, error2] = useSendPasswordResetEmail(auth);
+
   const [token] = useToken(user);
 
 
 
-  
-  
+
   if (token) {
-    navigate(from, {replace:true})
+    navigate(from, { replace: true })
+  }
+
+  const handleForgetPassword = (e) => {
+    const email = emailRef.current.value;
+    const regex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+
+    if (!email) {
+      toast.error("Please Enter email and Click Forgtt Password", { position: "top-center" })
+    }
+    else if (email.match(regex)) {
+
+      const sendMail = async () => {
+
+        try {
+          await sendPasswordResetEmail(email);
+        }
+        catch (e) {
+          console.log(e)
+        }
+
+      }
+
+
+      sendMail()
+
+   
+
+
+
+
+
+
+    } else {
+      toast.error("Please Enter Valid Email Address", { position: "top-center" })
+    }
   }
 
   const handleLoginForm = (e) => {
@@ -41,7 +80,7 @@ const Login = () => {
     const password = e.target.password.value;
     signInWithEmailAndPassword(email, password)
 
-    
+
   }
 
   return (
@@ -59,6 +98,7 @@ const Login = () => {
                   Email address
                 </label>
                 <input
+                  ref={emailRef}
                   type="email"
                   className="input-custom"
                   id="exampleInputEmail2"
@@ -82,8 +122,8 @@ const Login = () => {
                   required
                 />
               </div>
-              {error ? <p className="text-center text-red-600 text-md mb-2">{error?.message}</p> : '' }
-              
+              {error ? <p className="text-center text-red-600 text-md mb-2">{error?.message}</p> : ''}
+
               <div className="flex justify-between items-center mb-6">
                 <div className="form-group form-check">
                   <input
@@ -98,18 +138,19 @@ const Login = () => {
                     Remember me
                   </label>
                 </div>
-                <a
-                  href="/login"
+                <Link
+                  onClick={handleForgetPassword}
+                  to="#"
                   className="text-blue-600 hover:text-blue-700 focus:text-blue-700 transition duration-200 ease-in-out"
                 >
                   Forgot password?
-                </a>
+                </Link>
               </div>
 
-              { loading1 ? <LoadingSpinner /> : <button type="submit" className="input-button">
+              {loading1 ? <LoadingSpinner /> : <button type="submit" className="input-button">
                 Sign in
-              </button> }
-              
+              </button>}
+
 
               <div className="social-login">
                 <SocialLogin />

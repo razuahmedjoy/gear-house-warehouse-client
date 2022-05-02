@@ -14,7 +14,7 @@ import { faSignIn } from '@fortawesome/free-solid-svg-icons';
 const navigation = [
     { name: 'Home' },
     { name: 'Blogs' },
-    { name: 'About' },
+    
 
 
 ]
@@ -25,7 +25,7 @@ function classNames(...classes) {
 
 const Header = () => {
 
-    const [user, loading] = useAuthState(auth)
+    const [user] = useAuthState(auth)
 
 
     return (
@@ -136,6 +136,16 @@ const Header = () => {
                                                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                                         >
                                                             My Items
+                                                        </Link>
+                                                    )}
+                                                </Menu.Item>
+                                                <Menu.Item>
+                                                    {({ active }) => (
+                                                        <Link
+                                                            to="/add-item"
+                                                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                                        >
+                                                           Add Item
                                                         </Link>
                                                     )}
                                                 </Menu.Item>

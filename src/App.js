@@ -12,6 +12,8 @@ import RequireAuth from './components/Partials/RequireAuth';
 import Footer from './components/Partials/Footer/Footer';
 import AddItem from './components/Pages/AddItem/AddItem';
 import MyItems from './components/Pages/MyItems/MyItems';
+import NotFoundPage from './components/Pages/NotFoundPage/NotFoundPage';
+import EditItem from './components/Pages/EditItem/EditItem';
 function App() {
   return (
     <div className="App">
@@ -28,7 +30,9 @@ function App() {
 
         <Route path="/manage-inventory" element={<RequireAuth><ManageInventory /></RequireAuth>}></Route>
         <Route path="/add-item" element={<RequireAuth><AddItem /></RequireAuth>}></Route>
+        <Route path="/edit/:id" element={<RequireAuth><EditItem /></RequireAuth>}></Route>
         <Route path="/my-items" element={<RequireAuth><MyItems /></RequireAuth>}></Route>
+        <Route path="/*" element={<NotFoundPage />}></Route>
       </Routes>
     
            

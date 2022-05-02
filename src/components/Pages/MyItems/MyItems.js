@@ -1,4 +1,4 @@
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { signOut } from 'firebase/auth';
@@ -10,6 +10,11 @@ import auth from '../../../firebase.init';
 import axiosPrivate from '../../api/axiosPrivate';
 import LoadingSpinner from '../../Partials/LoadingSpinner/LoadingSpinner';
 
+// for confirmarion dialogue
+import { Text } from '@mantine/core';
+import { useModals } from '@mantine/modals';
+
+
 const MyItems = () => {
 
     const [user] = useAuthState(auth)
@@ -17,6 +22,9 @@ const MyItems = () => {
     const [perPage, setPerPage] = useState(8);
     const [page, setPage] = useState(0)
     const [totalPage, setTotalPage] = useState(0);
+
+    const modals = useModals()
+
     const navigate = useNavigate()
 
     const [loading, setLoading] = useState(false)
@@ -28,7 +36,7 @@ const MyItems = () => {
 
             const res = await axiosPrivate.post(`http://localhost:8000/my-inventories`, { email: user?.email });
             const totalCount = res.data.length;
-            console.log(totalCount)
+            // console.log(totalCount)
             const pageCount = Math.ceil(totalCount / perPage);
             // console.log(pageCount)
             setTotalPage(pageCount);
@@ -65,6 +73,22 @@ const MyItems = () => {
 
     }, [page])
 
+    const confirmDelete = (productId) => {
+        modals.openConfirmModal({
+            title: 'Delete this Item?',
+            centered: true,
+            children: (
+                <Text size="sm">
+                    Are you sure you want to delete this item?
+                </Text>
+            ),
+            labels: { confirm: '', cancel: "Yes Delete" },
+            onCancel: () => deleteItem(productId),
+            onConfirm: () => console.log('Confirmed'),
+        });
+
+
+    }
     const deleteItem = async (productId) => {
         const res = await axios.post(`http://localhost:8000/delete`, { id: productId })
         const { data } = res;
@@ -99,7 +123,7 @@ const MyItems = () => {
                             Supplier
                         </th>
                         <th scope="col" className="text-sm font-medium px-6 py-4 text-left">
-                            Action
+                            Delete / Edit
                         </th>
 
                     </tr>
@@ -113,8 +137,11 @@ const MyItems = () => {
                                     <img className="rounded-full object-cover" src={item.image} alt="" />
                                 </div>
                             </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4">
-                                {item.name}
+                            <td className="text-gray-900 font-light px-6 py-4">
+                                <span className="font-extrabold"> {item.name}</span>
+                                <br></br>
+                                <p className="text-sm text-gray-500">{item.description.substring(0, 60)}.....</p>
+                                <p className="text-sm font-bold">Added By: {item?.user_email}</p>
                             </td>
                             <td className="text-sm text-gray-900 font-light px-6 py-4">
                                 {item.quantity}
@@ -125,16 +152,18 @@ const MyItems = () => {
                             <td className="text-sm text-gray-900 font-light px-6 py-4">
                                 {item.supllier_name}
                             </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4">
-                                <button onClick={() => deleteItem(item._id)} className="btn border-[1px] border-red-500 py-1 text-red-500 px-5 rounded-full hover:bg-red-500 hover:text-white duration-300"><FontAwesomeIcon icon={faTrash} /></button>
+                            <td className="text-sm text-gray-900 font-light px-6 py-4 flex gap-2">
+                                <button onClick={() => confirmDelete(item._id)} className="btn border-[1px] border-red-500 py-1 text-red-500 px-5 rounded-full hover:bg-red-500 hover:text-white duration-300"><FontAwesomeIcon icon={faTrash} /></button>
+                                <button onClick={() => navigate(`/edit/${item._id}`)} className="btn border-[1px] border-indigo-500 py-1 text-primary px-5 rounded-full hover:bg-primary hover:text-white duration-300">
+                                    <FontAwesomeIcon icon={faEdit} /></button>
                             </td>
 
                         </tr>
                     )
                     }
-                   
+
                 </tbody>
-     
+
             </table>
 
             <div className="my-2 text-center">
@@ -145,7 +174,7 @@ const MyItems = () => {
                 }
             </div>
 
-            {inventories.length === 0 && <p class="text-center my-3 text-red-600 text-lg">You didn't added any item. Please Add any item from Manage Inventory page</p>}
+            {inventories.length === 0 && <p className="text-center my-3 text-red-600 text-lg">You didn't added any item. Please Add any item from Manage Inventory page</p>}
         </>
 
         )
