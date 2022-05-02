@@ -44,11 +44,11 @@ const TeamMembers = () => {
     }
 
     const members = [
-        {name:"John Doe", image:"", designation:"Quaility Checker"},
-        {name:"Ron Paul", image:"", designation:"Stock Manager"},
-        {name:"Picky Riot", image:"", designation:"Dealership Manager"},
-        {name:"Hienen jiu", image:"", designation:"Business Analytics"},
-        {name:"Sakibul Haque", image:"", designation:"Maintainance"},
+        {name:"John Doe", image:"user1.jpg", designation:"Quaility Checker"},
+        {name:"Ron Paul", image:"user2.jpg", designation:"Stock Manager"},
+        {name:"Picky Riot", image:"user3.jpg", designation:"Dealership Manager"},
+        {name:"Hienen jiu", image:"user4.jpg", designation:"Business Analytics"},
+        {name:"Sakibul Haque", image:"user5.jpg", designation:"Maintainance"},
     ]
     return (
         <div>
@@ -59,7 +59,7 @@ const TeamMembers = () => {
                         <div key={index} className="single-member p-5 flex justify-center items-center text-center gap-5">
                             <div style={singleMemberBg} className="p-5 rounded-3xl shadow-md shadow-purple-200">
                                 <div className="text-center d-flex justify-center items-center mb-4">
-                                    <img width="80px" height="80px" className="rounded-full text-center mx-auto border-[6px] shadow-md border-white" src="https://pickaface.net/gallery/avatar/unr_test_161024_0535_9lih90.png" alt="avatar" />
+                                    <img width="80px" height="80px" className="rounded-full text-center mx-auto border-[6px] shadow-md border-white" src={`/images/${member.image}`} alt="avatar" />
                                 </div>
                                 <p className="font-bold">{member.name}</p>
                                 <p className="text-xs mt-2 font-bold">{member.designation}</p>

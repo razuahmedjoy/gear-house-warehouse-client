@@ -34,7 +34,7 @@ const MyItems = () => {
 
         const getTotalCount = async () => {
 
-            const res = await axiosPrivate.post(`http://localhost:8000/my-inventories`, { email: user?.email });
+            const res = await axiosPrivate.post(`https://polar-sea-52958.herokuapp.com/my-inventories`, { email: user?.email });
             const totalCount = res.data.length;
             // console.log(totalCount)
             const pageCount = Math.ceil(totalCount / perPage);
@@ -51,7 +51,7 @@ const MyItems = () => {
         setLoading(true)
         const getInventories = async () => {
             try {
-                const res = await axiosPrivate.post(`http://localhost:8000/my-inventories?page=${page}&perpage=${perPage}`, { email: user?.email });
+                const res = await axiosPrivate.post(`https://polar-sea-52958.herokuapp.com/my-inventories?page=${page}&perpage=${perPage}`, { email: user?.email });
 
                 const { data } = res;
                 // console.log(data)
@@ -90,7 +90,7 @@ const MyItems = () => {
 
     }
     const deleteItem = async (productId) => {
-        const res = await axios.post(`http://localhost:8000/delete`, { id: productId })
+        const res = await axios.post(`https://polar-sea-52958.herokuapp.com/delete`, { id: productId })
         const { data } = res;
         if (data.deletedCount === 1) {
             const newInventoryList = inventories.filter(item => item._id !== productId)

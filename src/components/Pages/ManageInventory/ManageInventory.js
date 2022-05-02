@@ -27,7 +27,7 @@ const ManageInventory = () => {
 
         const getTotalCount = async () => {
 
-            const res = await axios.get(`http://localhost:8000/inventories?count=True`);
+            const res = await axios.get(`https://polar-sea-52958.herokuapp.com/inventories?count=True`);
             const { totalCount } = res.data;
             const pageCount = Math.ceil(totalCount / perPage);
             setTotalPage(pageCount);
@@ -41,7 +41,7 @@ const ManageInventory = () => {
     useEffect(() => {
         setLoading(true)
         const getInventories = async () => {
-            const res = await axios.get(`http://localhost:8000/inventories?page=${page}&perpage=${perPage}`);
+            const res = await axios.get(`https://polar-sea-52958.herokuapp.com/inventories?page=${page}&perpage=${perPage}`);
             const { data } = res;
             // console.log(data)
             setInventories(data);
@@ -71,7 +71,7 @@ const ManageInventory = () => {
     }
 
     const deleteItem = async (productId) => {
-        const res = await axios.post(`http://localhost:8000/delete`, { id: productId })
+        const res = await axios.post(`https://polar-sea-52958.herokuapp.com/delete`, { id: productId })
         const { data } = res;
         if (data.deletedCount === 1) {
             const newInventoryList = inventories.filter(item => item._id !== productId)

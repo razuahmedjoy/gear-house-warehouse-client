@@ -36,7 +36,7 @@ const EditItem = () => {
         const data = { ...item };
         try {
 
-            const res = await axios.put('http://localhost:8000/update/', data);
+            const res = await axios.put('https://polar-sea-52958.herokuapp.com/update/', data);
             if (res.data.modifiedCount === 1) {
                 toast.update(updating, {
                     render: "Updated", type: "success", isLoading: false, autoClose: 3000,

@@ -15,7 +15,7 @@ const useSingleInventory = (id) => {
 
             try {
 
-                const res = await axios.get(`http://localhost:8000/inventory/${id}`);
+                const res = await axios.get(`https://polar-sea-52958.herokuapp.com/inventory/${id}`);
                 setItem(res.data);
                 setLoading(false)
 

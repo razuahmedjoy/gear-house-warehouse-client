@@ -12,7 +12,7 @@ const Blogs = ({limit}) => {
     useEffect(() => {
         setLoading(true)
         const getBlogs = async ()=>{
-            const res = await axios.get('http://localhost:8000/blogs/')
+            const res = await axios.get('https://polar-sea-52958.herokuapp.com/blogs/')
             setBlogs(res.data);
             setLoading(false)
         }

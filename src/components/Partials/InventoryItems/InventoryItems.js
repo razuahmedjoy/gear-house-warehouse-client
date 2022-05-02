@@ -16,7 +16,7 @@ const InventoryItems = () => {
 
             try {
 
-                const res = await axios.get('http://localhost:8000/inventories?limit=6')
+                const res = await axios.get('https://polar-sea-52958.herokuapp.com/inventories?limit=6')
 
                 setInventory(res.data)
                 setLoading(false)

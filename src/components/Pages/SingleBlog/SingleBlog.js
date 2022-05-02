@@ -17,7 +17,7 @@ const SingleBlog = () => {
 
         const getBlog = async ()=>{
 
-            const res = await axios.get(`http://localhost:8000/blog/${id}`);
+            const res = await axios.get(`https://polar-sea-52958.herokuapp.com/blog/${id}`);
             setSingleBlog(res.data);
             setLoading(false);
 

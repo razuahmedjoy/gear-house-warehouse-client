@@ -13,7 +13,7 @@ const useToken = (user) => {
             const email = user?.email;
             if (email) {
                 try {
-                    const { data } = await axios.post('http://localhost:8000/get-token', { email })
+                    const { data } = await axios.post('https://polar-sea-52958.herokuapp.com/get-token', { email })
                     const { accessToken } = await data;
                     localStorage.setItem('accessToken', accessToken);
                     // console.log(accessToken);

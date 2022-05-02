@@ -23,7 +23,7 @@ const AddItem = () => {
             user_email: user?.email
 
         }
-        const res = await axios.post(`http://localhost:8000/additem`,data);
+        const res = await axios.post(`https://polar-sea-52958.herokuapp.com/additem`,data);
         // console.log(res.status)
         if(res.status === 200){
 

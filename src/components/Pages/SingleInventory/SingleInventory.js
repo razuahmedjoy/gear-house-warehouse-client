@@ -19,7 +19,7 @@ const SingleInventory = () => {
 
                 const delivering = toast.loading("Processing..")
 
-                const res = await axios.get(`http://localhost:8000/delivered/${itemid}`);
+                const res = await axios.get(`https://polar-sea-52958.herokuapp.com/delivered/${itemid}`);
 
                 // console.log(res.data)
 
@@ -53,7 +53,7 @@ const SingleInventory = () => {
         e.preventDefault()
         const qty = parseInt(e.target.qty.value) + parseInt(item.quantity);
         try {
-            const res = await axios.post(`http://localhost:8000/update/${item._id}`, { qty });
+            const res = await axios.post(`https://polar-sea-52958.herokuapp.com/update/${item._id}`, { qty });
 
             const newItem = { ...item, quantity: qty }
             setItem(newItem)
