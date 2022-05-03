@@ -13,7 +13,13 @@ const Blogs = ({limit}) => {
         setLoading(true)
         const getBlogs = async ()=>{
             const res = await axios.get('https://polar-sea-52958.herokuapp.com/blogs/')
-            setBlogs(res.data);
+            // setBlogs(res.data);
+            if(limit){
+                setBlogs(res.data.slice(0, limit));
+            }
+            else{
+                setBlogs(res.data);
+            }
             setLoading(false)
         }
 
@@ -29,15 +35,7 @@ const Blogs = ({limit}) => {
             minHeight: "163px"
         
     }
-    let sliceend;
-    if(limit){
-        // console.log("from limit")
-        sliceend = limit
-    }
-    else{
-        // console.log("from else")
-        sliceend = blogs.length+1
-    }
+    
 
 
     return (
@@ -50,7 +48,7 @@ const Blogs = ({limit}) => {
 
 
         {
-            blogs.slice(0,sliceend).map(blog => 
+            blogs.map(blog => 
                 
                 <div key={blog._id} className="blog-grid border-[1px] rounded-md bg-white mx-10 p-1 hover:shadow-lg duration-300">
                     <div className="blog-image overflow-hidden cursor-pointer m-4 rounded-">
