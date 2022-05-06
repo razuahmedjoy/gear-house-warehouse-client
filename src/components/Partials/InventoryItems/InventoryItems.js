@@ -16,9 +16,12 @@ const InventoryItems = () => {
 
             try {
 
-                const res = await axios.get('https://polar-sea-52958.herokuapp.com/inventories?limit=6')
+                // const res = await axios.get('https://polar-sea-52958.herokuapp.com/inventories?limit=6')
+                const response = await fetch("https://polar-sea-52958.herokuapp.com/inventories?limit=6");
+                const res = await response.json();
+                // console.log(res);
 
-                setInventory(res.data)
+                setInventory(res)
                 setLoading(false)
 
             }
@@ -50,7 +53,7 @@ const InventoryItems = () => {
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6">
             {   loading ? <Loading /> :
-                inventory.map(item =>
+                inventory?.map(item =>
                     <div key={item._id} className="single-item border-[1px] rounded-md border-primary m-1 lg:mx-10 p-1 hover:shadow-lg duration-300">
                         <div className="item-image overflow-hidden cursor-pointer md:h-[150px] lg:h-[230px]">
                             <img className="hover:scale-110 duration-300" src={item.image} alt="{item.name}" />
