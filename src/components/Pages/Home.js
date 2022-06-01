@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import ContactUs from '../Partials/ContactUs/ContactUs';
 import HomeSlider from '../Partials/HomeSlider/HomeSlider';
 import InventoryItems from '../Partials/InventoryItems/InventoryItems';
 import TeamMembers from '../Partials/TeamMembers/TeamMembers';
@@ -15,7 +16,7 @@ const Home = () => {
             <section className="inventory-section py-20">
 
                 <h1 className="text-center text-2xl md:text-4xl text-primary uppercase font-semibold">
-                    Inventory Items
+                    Inventory Items..
                 </h1>
                 <hr className="w-1/4 mt-5 text-center m-auto border-blue-800" />
                 <div className="invetory-items my-5 px-5 md:px-10">
@@ -51,6 +52,20 @@ const Home = () => {
                 <div className="blogs">
 
                     <Blogs limit={3} />
+
+                </div>
+
+
+
+            </section>
+
+            {/* contact */}
+            <section className="contact">
+
+
+                <div className="blogs">
+
+                    <ContactUs />
 
                 </div>
 
